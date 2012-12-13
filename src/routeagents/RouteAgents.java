@@ -4,6 +4,13 @@
  */
 package routeagents;
 
+import jade.core.Agent;
+import jade.core.Profile;
+import jade.core.ProfileImpl;
+import jade.wrapper.AgentController;
+import jade.wrapper.ContainerController;
+import jade.wrapper.StaleProxyException;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -15,16 +22,30 @@ public class RouteAgents {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static ArrayList<Agent> agents = new ArrayList<Agent>();
+    public static int[][] graphRoute = setGraphRoute();  
+//    public static int[][] graphVelocity = setGraphVelocity(graphRoute);
+    
+    public static void main(String[] args) throws StaleProxyException {
 
-        int[][] graphRoute = setGraphRoute();
-        int[][] graphVelocity = setGraphVelocity(graphRoute);
+        jade.core.Runtime runtime = jade.core.Runtime.instance();
+
+        Profile profile = new ProfileImpl();
+        profile.setParameter(Profile.MAIN_HOST, "127.0.0.1");
+        profile.setParameter(Profile.MAIN_PORT, "1099");
+
+        ContainerController containerController = runtime.createMainContainer(profile);
+
+        for (int i = 0; i < 2; i++) {
+            AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
+            a.start();
+        }
 
     }
 
     public static int[][] setGraphVelocity(int[][] graphRoute) {
-        
-        int[][] graphVelocity = graphRoute.clone();
+
+        int[][] graphVelocity = graphRoute;
 
         for (int i = 0; i < graphVelocity.length; i++) {
 
