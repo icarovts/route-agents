@@ -158,6 +158,8 @@ public class Car extends Agent {
 
             }
 
+            boolean withoutOptions = true;
+
             while (true) {
 
                 try {
@@ -166,45 +168,47 @@ public class Car extends Agent {
                     Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                boolean withoutOptions = true;
                 for (Pair p : ways) {
                     withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
                 }
 
-                double[] prob = new double[neibhgours.size()];
+                break;
+            }
 
-                if (withoutOptions) {
+            double[] prob = new double[neibhgours.size()];
 
-                    for (int i = 0; i < prob.length; i++) {
-
-                        prob[i] = 100 / prob.length;
-
-                    }
-                }
-
-                int v = 0;
-
-                double x = Math.random() * 100;
-
-                double y = 0;
+            if (withoutOptions) {
 
                 for (int i = 0; i < prob.length; i++) {
 
-                    y += prob[i];
+                    prob[i] = 100.00 / prob.length;
 
-                    if (x < y) {
+                }
+            }
 
-                        v = i;
+            int v = 0;
 
-                        break;
+            double x = Math.random() * 100;
 
-                    }
+            double y = 0;
+
+            for (int i = 0; i < prob.length; i++) {
+
+                y += prob[i];
+
+                if (x < y) {
+
+                    v = i;
+
+                    break;
 
                 }
 
-                moveTo(this.current, v);
-
             }
+
+            moveTo(this.current, v);
+
+
         }
 
     }
