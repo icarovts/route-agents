@@ -23,8 +23,7 @@ public class Car extends Agent {
     boolean wait = false;
     ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
     ArrayList<Pair> ways = new ArrayList<Pair>();
-    
-        
+
     @Override
     protected void setup() {
 
@@ -39,12 +38,12 @@ public class Car extends Agent {
             public void action() {
                 String[] parse;
                 ACLMessage rec = receive();
-                                
+
                 if (rec != null) {
 
                     parse = rec.getContent().split("\n");
-                    
-                    if ( pairs.size() > 0 && parse[0].equals("01")) {
+
+                    if (pairs.size() > 0 && parse[0].equals("01")) {
 
                         String[] pair;
                         StringBuffer buffer = new StringBuffer();
@@ -52,7 +51,7 @@ public class Car extends Agent {
                         for (int i = 1; i < parse.length; i++) {
 
                             pair = parse[i].split(";");
-                                                                                       
+
                             buffer.append("02\n");
 
                             for (Pair p : pairs) {
@@ -90,18 +89,18 @@ public class Car extends Agent {
 
                     if (parse[0].equals("02")) {
 
-                        System.out.println("teste");                        
-                        
+                        System.out.println("teste");
+
                         for (int i = 1; i < parse.length; i++) {
-                            
+
                             String[] pair = parse[i].split(";");
-                            
+
                             Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
                             p.setTime(Long.parseLong(pair[3]));
-                            
+
                             ways.add(p);
-                            
+
 
                         }
 
@@ -157,50 +156,55 @@ public class Car extends Agent {
 
         }
 
-//        while (true) {
-//
-//            if (!ways.isEmpty()) {
-//
-//                for (Pair p : ways) {
-//                                        
-//                    
-//                }
-//
-//                break;
-//
-//            }
-//
-//        }
-        
         while (true) {
+
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             boolean withoutOptions = true;
-            for (Pair p: ways){
+            for (Pair p : ways) {
                 withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
             }
-            
+
+            double[] prob = new double[neibhgours.size()];
+
             if (withoutOptions) {
-                
-                double[] prob = new double[neibhgours.size()];
 
                 for (int i = 0; i < prob.length; i++) {
 
-                    prob[i] = 100/prob.length;
+                    prob[i] = 100 / prob.length;
 
                 }
             }
+
+            int v = 0;
+
+            double x = Math.random() * 100;
+
+            double y = 0;
+
+            for (int i = 0; i < prob.length; i++) {
+
+                y += prob[i];
+
+                if (x < y) {
+
+                    v = i;
+
+                    break;
+
+                }
+
+            }
+
+            moveTo(this.current, v);
+
+
         }
-        
-        /*
-         fazer aqui o tratamento das porcentagens
-         * 
-         */
-        
+
 
     }
 
