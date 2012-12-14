@@ -10,8 +10,10 @@ import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +24,7 @@ public class RouteAgents {
     /**
      * @param args the command line arguments
      */
-    public static ArrayList<Agent> agents = new ArrayList<Agent>();
+    public static Vector<Agent> agents = new Vector<Agent>();
     public static int[][] graphRoute = setGraphRoute();  
     
 //    public static int[][] graphVelocity = setGraphVelocity(graphRoute);
@@ -37,9 +39,16 @@ public class RouteAgents {
 
         ContainerController containerController = runtime.createMainContainer(profile);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1000; i++) {
             AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
             a.start();
+            
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
 
     }

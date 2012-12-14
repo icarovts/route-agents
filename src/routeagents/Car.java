@@ -30,7 +30,8 @@ public class Car extends Agent {
         super.setup();
 
         RouteAgents.agents.add(this);
-
+        
+        
         CarBehavior carBehavior = new CarBehavior(this);
         // aciiona o comportamento ciclico para ficar recebendo as solicitações dos demais agentes
         addBehaviour(new CyclicBehaviour(this) {
@@ -48,11 +49,11 @@ public class Car extends Agent {
                         String[] pair;
                         StringBuffer buffer = new StringBuffer();
 
+                        buffer.append("02\n");
+                        
                         for (int i = 1; i < parse.length; i++) {
 
-                            pair = parse[i].split(";");
-
-                            buffer.append("02\n");
+                            pair = parse[i].split(";");                           
 
                             for (Pair p : pairs) {
 
@@ -88,16 +89,14 @@ public class Car extends Agent {
                     }
 
                     if (parse[0].equals("02")) {
-
-                        System.out.println("teste");
-
+                        
                         for (int i = 1; i < parse.length; i++) {
 
                             String[] pair = parse[i].split(";");
 
                             Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
-                            p.setTime(Long.parseLong(pair[3]));
+                            //p.setTime(Long.parseLong(pair[3]));
 
                             ways.add(p);
 
@@ -114,7 +113,7 @@ public class Car extends Agent {
         });
 
         addBehaviour(carBehavior);
-
+        
     }
 
     void startWay() {
