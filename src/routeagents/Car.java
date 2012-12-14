@@ -119,92 +119,93 @@ public class Car extends Agent {
 
     void startWay() {
 
-        ArrayList<Integer> neibhgours = getNeighbours();
+        while (this.current != RouteAgents.graphRoute.length) {
 
-        StringBuffer message = new StringBuffer();
+            ArrayList<Integer> neibhgours = getNeighbours();
 
-        message.append("01\n");
+            StringBuffer message = new StringBuffer();
 
-        for (int n : neibhgours) {
+            message.append("01\n");
 
-            message.append(this.current);
-            message.append(";");
-            message.append(n);
-            message.append(";");
-            message.append("0");
-            message.append(";");
-            message.append("0");
-            message.append("\n");
+            for (int n : neibhgours) {
 
-        }
-
-        ways.removeAll(null);
-
-        for (Agent a : RouteAgents.agents) {
-
-            if (!a.getAID().getLocalName().equals(this.getAID().getLocalName())) {
-
-                ACLMessage msg = new OntoACLMessage(ACLMessage.INFORM);
-
-                msg.addReceiver(new AID(a.getLocalName(), AID.ISLOCALNAME));
-
-                msg.setContent(message.toString());
-
-                this.send(msg);
+                message.append(this.current);
+                message.append(";");
+                message.append(n);
+                message.append(";");
+                message.append("0");
+                message.append(";");
+                message.append("0");
+                message.append("\n");
 
             }
 
-        }
+            ways.removeAll(null);
 
-        while (true) {
+            for (Agent a : RouteAgents.agents) {
 
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+                if (!a.getAID().getLocalName().equals(this.getAID().getLocalName())) {
+
+                    ACLMessage msg = new OntoACLMessage(ACLMessage.INFORM);
+
+                    msg.addReceiver(new AID(a.getLocalName(), AID.ISLOCALNAME));
+
+                    msg.setContent(message.toString());
+
+                    this.send(msg);
+
+                }
+
             }
 
-            boolean withoutOptions = true;
-            for (Pair p : ways) {
-                withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
-            }
+            while (true) {
 
-            double[] prob = new double[neibhgours.size()];
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
-            if (withoutOptions) {
+                boolean withoutOptions = true;
+                for (Pair p : ways) {
+                    withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
+                }
+
+                double[] prob = new double[neibhgours.size()];
+
+                if (withoutOptions) {
+
+                    for (int i = 0; i < prob.length; i++) {
+
+                        prob[i] = 100 / prob.length;
+
+                    }
+                }
+
+                int v = 0;
+
+                double x = Math.random() * 100;
+
+                double y = 0;
 
                 for (int i = 0; i < prob.length; i++) {
 
-                    prob[i] = 100 / prob.length;
+                    y += prob[i];
 
-                }
-            }
+                    if (x < y) {
 
-            int v = 0;
+                        v = i;
 
-            double x = Math.random() * 100;
+                        break;
 
-            double y = 0;
-
-            for (int i = 0; i < prob.length; i++) {
-
-                y += prob[i];
-
-                if (x < y) {
-
-                    v = i;
-
-                    break;
+                    }
 
                 }
 
+                moveTo(this.current, v);
+
             }
-
-            moveTo(this.current, v);
-
-
         }
-
 
     }
 
