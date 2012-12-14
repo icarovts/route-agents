@@ -96,8 +96,6 @@ public class Car extends Agent {
 
                             Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
-                            //p.setTime(Long.parseLong(pair[3]));
-
                             ways.add(p);
 
 

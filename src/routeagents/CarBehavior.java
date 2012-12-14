@@ -27,7 +27,7 @@ public class CarBehavior extends SimpleBehaviour{
               
         this.car.startWay();
 
-        System.out.println("finalizando");
+        System.out.println("finalizando agente " + this.car.getAID().getLocalName());
         this.finished = true;
 
         

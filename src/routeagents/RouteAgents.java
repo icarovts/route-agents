@@ -25,10 +25,9 @@ public class RouteAgents {
      * @param args the command line arguments
      */
     public static Vector<Agent> agents = new Vector<Agent>();
-    public static int[][] graphRoute = setGraphRoute();  
-    
+    public static int[][] graphRoute = setGraphRoute();
+
 //    public static int[][] graphVelocity = setGraphVelocity(graphRoute);
-    
     public static void main(String[] args) throws StaleProxyException {
 
         jade.core.Runtime runtime = jade.core.Runtime.instance();
@@ -42,13 +41,13 @@ public class RouteAgents {
         for (int i = 0; i < 1000; i++) {
             AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
             a.start();
-            
+
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
 
     }
