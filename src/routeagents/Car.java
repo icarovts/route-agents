@@ -56,8 +56,7 @@ public class Car extends Agent {
                             for (Pair p : pairs) {
 
                                 if (p.getStart() == Integer.valueOf(pair[0]) && p.getEnd() == Integer.valueOf(pair[1])) {
-
-                                    buffer.append("{");
+                                    
                                     buffer.append(pair[0]);
                                     buffer.append(";");
                                     buffer.append(pair[1]);
@@ -65,7 +64,6 @@ public class Car extends Agent {
                                     buffer.append(p.getTime());
                                     buffer.append(";");
                                     buffer.append(p.getInterval());
-                                    buffer.append("}");
                                     buffer.append("\n");
 
                                 }
@@ -120,8 +118,7 @@ public class Car extends Agent {
         message.append("01\n");
 
         for (int n : neibhgours) {
-
-            message.append("{");
+            
             message.append(this.current);
             message.append(";");
             message.append(n);
@@ -129,7 +126,6 @@ public class Car extends Agent {
             message.append("0");
             message.append(";");
             message.append("0");
-            message.append("}");
             message.append("\n");
 
         }
