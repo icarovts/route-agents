@@ -21,7 +21,8 @@ public class Car extends Agent {
     boolean wait = false;
     ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
     ArrayList<Pair> ways = new ArrayList<Pair>();
-
+    
+        
     @Override
     protected void setup() {
 
@@ -160,7 +161,8 @@ public class Car extends Agent {
 //            if (!ways.isEmpty()) {
 //
 //                for (Pair p : ways) {
-//                    System.out.println(p.toString());
+//                                        
+//                    
 //                }
 //
 //                break;
@@ -168,6 +170,13 @@ public class Car extends Agent {
 //            }
 //
 //        }
+        
+
+        /*
+         fazer aqui o tratamento das porcentagens
+         * 
+         */
+        
 
     }
 

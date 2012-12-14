@@ -24,6 +24,7 @@ public class RouteAgents {
      */
     public static ArrayList<Agent> agents = new ArrayList<Agent>();
     public static int[][] graphRoute = setGraphRoute();  
+    
 //    public static int[][] graphVelocity = setGraphVelocity(graphRoute);
     
     public static void main(String[] args) throws StaleProxyException {
