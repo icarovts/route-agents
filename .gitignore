@@ -1,6 +1,3 @@
-# ignore .class files:
-*.class
-
-# ignore private files:
-nbproject/private/
-nbproject/project.properties
+/nbproject/private/
+/build/
+/dist/

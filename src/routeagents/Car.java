@@ -37,12 +37,12 @@ public class Car extends Agent {
             public void action() {
                 String[] parse;
                 ACLMessage rec = receive();
-
+                                
                 if (rec != null) {
 
                     parse = rec.getContent().split("\n");
-
-                    if (parse[0].equals("01")) {
+                    
+                    if ( pairs.size() > 0 && parse[0].equals("01")) {
 
                         String[] pair;
                         StringBuffer buffer = new StringBuffer();
@@ -50,13 +50,13 @@ public class Car extends Agent {
                         for (int i = 1; i < parse.length; i++) {
 
                             pair = parse[i].split(";");
-
+                                                                                       
                             buffer.append("02\n");
 
                             for (Pair p : pairs) {
 
                                 if (p.getStart() == Integer.valueOf(pair[0]) && p.getEnd() == Integer.valueOf(pair[1])) {
-                                    
+
                                     buffer.append(pair[0]);
                                     buffer.append(";");
                                     buffer.append(pair[1]);
@@ -88,11 +88,18 @@ public class Car extends Agent {
 
                     if (parse[0].equals("02")) {
 
+                        System.out.println("teste");                        
+                        
                         for (int i = 1; i < parse.length; i++) {
-
+                            
                             String[] pair = parse[i].split(";");
+                            
+                            Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
-                            ways.add(new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2])));
+                            p.setTime(Long.parseLong(pair[3]));
+                            
+                            ways.add(p);
+                            
 
                         }
 
@@ -118,7 +125,7 @@ public class Car extends Agent {
         message.append("01\n");
 
         for (int n : neibhgours) {
-            
+
             message.append(this.current);
             message.append(";");
             message.append(n);
@@ -157,7 +164,7 @@ public class Car extends Agent {
 //                }
 //
 //                break;
-//                
+//
 //            }
 //
 //        }
