@@ -10,6 +10,8 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -170,13 +172,28 @@ public class Car extends Agent {
 //
 //        }
         
+        while (true) {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            boolean withoutOptions = true;
+            for (Pair p: ways){
+                withoutOptions = withoutOptions && neibhgours.indexOf(p.getStart()) == -1;
+            }
+            
+            if (withoutOptions) {
+                
+                double[] prob = new double[neibhgours.size()];
 
-        double[] prob = new double[neibhgours.size()];
-        
-        for (int i = 0; i < prob.length; i++) {
-            
-            prob[i] = 100/prob.length;
-            
+                for (int i = 0; i < prob.length; i++) {
+
+                    prob[i] = 100/prob.length;
+
+                }
+            }
         }
         
         /*
