@@ -24,10 +24,11 @@ public class RouteAgents {
     /**
      * @param args the command line arguments
      */
+    @SuppressWarnings("UseOfObsoleteCollectionType")
     public static Vector<Agent> agents = new Vector<Agent>();
-    public static int[][] graphRoute = setGraphRoute();
+    public static double[][] graphRoute = setGraphRoute();
+    public static double[][] graphVelocity = setGraphVelocity(graphRoute);
 
-//    public static int[][] graphVelocity = setGraphVelocity(graphRoute);
     public static void main(String[] args) throws StaleProxyException {
 
         jade.core.Runtime runtime = jade.core.Runtime.instance();
@@ -52,16 +53,16 @@ public class RouteAgents {
 
     }
 
-    public static int[][] setGraphVelocity(int[][] graphRoute) {
+    public static double[][] setGraphVelocity(double[][] graphRoute) {
 
-        int[][] graphVelocity = graphRoute;
+        double[][] graphVelocity = new double[graphRoute.length][graphRoute.length];
+                              
+        for (int i = 0; i < graphRoute.length; i++) {
 
-        for (int i = 0; i < graphVelocity.length; i++) {
+            for (int j = 0; j < graphRoute[i].length; j++) {
 
-            for (int j = 0; j < graphVelocity[i].length; j++) {
-
-                if (graphVelocity[i][j] > 0) {
-                    graphVelocity[i][j] = (new Random(100)).nextInt();
+                if (graphRoute[i][j] > 0) {
+                    graphVelocity[i][j] = ( Math.random()*100 );
                 }
 
             }
@@ -71,9 +72,9 @@ public class RouteAgents {
 
     }
 
-    public static int[][] setGraphRoute() {
+    public static double[][] setGraphRoute() {
 
-        int[][] graphRoute = new int[9][9];
+        double[][] graphRoute = new double[9][9];
 
         graphRoute[0][0] = 0;
         graphRoute[0][1] = 1;

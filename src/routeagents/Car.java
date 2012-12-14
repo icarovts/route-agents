@@ -93,7 +93,7 @@ public class Car extends Agent {
                         for (int i = 1; i < parse.length; i++) {
 
                             String[] pair = parse[i].split(";");
-
+                            
                             Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
                             ways.add(p);
@@ -157,19 +157,21 @@ public class Car extends Agent {
 
             boolean withoutOptions = true;
 
-            while (true) {
+            while (ways.size() == 0) {
 
-                try {
-                    Thread.sleep(1000);
+                /*try {
+                    Thread.sleep(9000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }*/
 
                 for (Pair p : ways) {
                     withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
                 }
-
-                break;
+                
+                System.out.println("aguardando resposta...");
+                
+                //break;
             }
 
             double[] prob = new double[neibhgours.size()];
@@ -240,7 +242,7 @@ public class Car extends Agent {
     private Double calculateInterval(int start, int end) {
         Double interval;
 
-        interval = 0.0; //((Integer) RouteAgents.graphRoute[start][end]).doubleValue() / ((Integer)RouteAgents.graphVelocity[start][end]).doubleValue();
+        interval = RouteAgents.graphRoute[start][end] / RouteAgents.graphVelocity[start][end] ;
 
         return interval;
     }

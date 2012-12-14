@@ -18,8 +18,13 @@ public class Pair {
         this.start = start;
         this.end = end;
         this.interval = interval;
-        this.time = System.currentTimeMillis();
-        
+        this.time = System.currentTimeMillis();        
+    }            
+    public Pair(int start, int end, Double interval, long time) {
+        this.start = start;
+        this.end = end;
+        this.interval = interval;
+        this.time = time;
     }        
 
     public int getStart() {
