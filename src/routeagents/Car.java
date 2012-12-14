@@ -181,7 +181,7 @@ public class Car extends Agent {
             
             boolean withoutOptions = true;
             for (Pair p: ways){
-                withoutOptions = withoutOptions && neibhgours.indexOf(p.getStart()) == -1;
+                withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
             }
             
             if (withoutOptions) {
