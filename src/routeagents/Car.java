@@ -172,6 +172,14 @@ public class Car extends Agent {
 //        }
         
 
+        double[] prob = new double[neibhgours.size()];
+        
+        for (int i = 0; i < prob.length; i++) {
+            
+            prob[i] = 100/prob.length;
+            
+        }
+        
         /*
          fazer aqui o tratamento das porcentagens
          * 
