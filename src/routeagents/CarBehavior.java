@@ -27,8 +27,8 @@ public class CarBehavior extends SimpleBehaviour{
               
         this.car.startWay();
 
-        System.out.println("finaliznado");
-        this.finished = false;
+        System.out.println("finalizando");
+        this.finished = true;
 
         
     }

@@ -119,7 +119,7 @@ public class Car extends Agent {
 
     void startWay() {
 
-        while (this.current != RouteAgents.graphRoute.length-1) {
+        while (this.current != RouteAgents.graphRoute.length - 1) {
 
             ArrayList<Integer> neibhgours = getNeighbours();
 
@@ -163,7 +163,7 @@ public class Car extends Agent {
             while (true) {
 
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -208,7 +208,7 @@ public class Car extends Agent {
 
             moveTo(this.current, neibhgours.get(v));
 
-
+            System.out.println("agente " + this.getAID().getLocalName() + " Vértice " + this.current);
         }
 
     }
