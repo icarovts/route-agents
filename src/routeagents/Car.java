@@ -31,7 +31,6 @@ public class Car extends Agent {
         RouteAgents.agents.add(this);
 
         CarBehavior carBehavior = new CarBehavior(this);
-
         // aciiona o comportamento ciclico para ficar recebendo as solicitações dos demais agentes
         addBehaviour(new CyclicBehaviour(this) {
             @Override
