@@ -119,7 +119,7 @@ public class Car extends Agent {
 
     void startWay() {
 
-        while (this.current != RouteAgents.graphRoute.length) {
+        while (this.current != RouteAgents.graphRoute.length-1) {
 
             ArrayList<Integer> neibhgours = getNeighbours();
 
@@ -206,7 +206,7 @@ public class Car extends Agent {
 
             }
 
-            moveTo(this.current, v);
+            moveTo(this.current, neibhgours.get(v));
 
 
         }
