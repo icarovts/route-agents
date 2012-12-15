@@ -51,9 +51,7 @@ public class RouteAgents {
                     Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-            }
-            
-            a.activate();
+            }                        
 
         }
 

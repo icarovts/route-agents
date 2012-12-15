@@ -21,8 +21,7 @@ public class Car extends Agent {
 
     int current = 0;
     boolean wait = false;
-    ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
-    CopyOnWriteArrayList<Pair> ways = new CopyOnWriteArrayList<Pair>();
+    ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car    
 
     @Override
     protected void setup() {
@@ -63,9 +62,8 @@ public class Car extends Agent {
             }
 
 
-            // Remove all ways while waiting for options
-            ways.removeAll(null);
-
+            ArrayList <Pair> ways = new ArrayList<Pair>();
+            
             // Ask antoher agents for options
 
             ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
@@ -113,7 +111,7 @@ public class Car extends Agent {
 
             boolean withoutOptions = true;
 
-            int loops = 0;
+            //int loops = 0;
 
             for (Pair p : ways) {
                 withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
@@ -193,13 +191,13 @@ public class Car extends Agent {
 
             }
 
-            //System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
+            System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
 
             moveTo(this.current, v);
 
         }
 
-        //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
     }
 
     ArrayList<Integer> getNeighbours() {
