@@ -62,7 +62,6 @@ public class Car extends Agent {
 
             }
 
-            System.out.println("tamanho do array " + ways.size());
 
             // Remove all ways while waiting for options
             ways.removeAll(null);
@@ -115,6 +114,10 @@ public class Car extends Agent {
             boolean withoutOptions = true;
 
             int loops = 0;
+
+            for (Pair p : ways) {
+                withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
+            }
 
             // Trying to find options 15 times...
             /*while (ways.size() == 0 && loops <= 1) {
