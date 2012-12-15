@@ -10,8 +10,7 @@ import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
-import java.util.Random;
-import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,8 +23,8 @@ public class RouteAgents {
     /**
      * @param args the command line arguments
      */
-    @SuppressWarnings("UseOfObsoleteCollectionType")
-    public static Vector<Agent> agents = new Vector<Agent>();
+    
+    public static CopyOnWriteArrayList <Agent> agents = new CopyOnWriteArrayList <Agent>();
     public static double[][] graphRoute = setGraphRoute();
     public static double[][] graphVelocity = setGraphVelocity(graphRoute);
 

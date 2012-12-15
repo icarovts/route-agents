@@ -30,8 +30,7 @@ public class Car extends Agent {
         super.setup();
 
         RouteAgents.agents.add(this);
-        
-        
+                
         CarBehavior carBehavior = new CarBehavior(this);
         // aciiona o comportamento ciclico para ficar recebendo as solicitações dos demais agentes
         addBehaviour(new CyclicBehaviour(this) {
@@ -138,7 +137,8 @@ public class Car extends Agent {
             }
 
             ways.removeAll(null);
-
+           
+            
             for (Agent a : RouteAgents.agents) {
 
                 if (!a.getAID().getLocalName().equals(this.getAID().getLocalName())) {
