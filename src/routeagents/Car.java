@@ -99,7 +99,7 @@ public class Car extends Agent {
                             String[] pair = parse[i].split(";");
 
                             Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
-
+                                                        
                             ways.add(p);
 
                         }
