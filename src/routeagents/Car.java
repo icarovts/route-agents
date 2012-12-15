@@ -118,31 +118,6 @@ public class Car extends Agent {
             }
             withoutOptions = withoutOptions && ways.size() == neibhgours.size();
 
-            // Trying to find options 15 times...
-            /*while (ways.size() == 0 && loops <= 1) {
-
-             // Doesn't have options if none of the agents did the same way
-
-             for (Pair p : ways) {
-             withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
-             }
-
-             //System.out.println("agente " + this.getAID().getLocalName() + " aguardando resposta...");
-
-             if (ways.size() > 0) {
-             System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho !!!!!!!!!!!!!!!!!!!!!!!!!");
-             }
-             // Give a time to agents make the wanted way
-
-             try {
-             Thread.sleep(100);
-             } catch (InterruptedException ex) {
-             Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
-             }
-
-             loops++;
-             }*/
-
 
             Hashtable prob = new Hashtable();
 
