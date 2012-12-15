@@ -242,9 +242,7 @@ public class Car extends Agent {
             }
 
             System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + neibhgours.get(v));
-
-            moveTo(this.current, v);
-
+           
             moveTo(this.current, neibhgours.get(v));
            
         }
