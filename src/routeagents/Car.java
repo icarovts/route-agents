@@ -4,10 +4,8 @@
  */
 package routeagents;
 
-import jade.content.OntoACLMessage;
 import jade.core.AID;
 import jade.core.Agent;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -70,31 +68,30 @@ public class Car extends Agent {
             ways.removeAll(null);
 
             // Ask antoher agents for options
+                        
+            ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 
             for (Agent a : RouteAgents.agents) {
 
                 if (!a.getAID().getLocalName().equals(this.getAID().getLocalName())) {
 
-                    ACLMessage msg = new OntoACLMessage(ACLMessage.REQUEST);
-
                     msg.addReceiver(new AID(a.getLocalName(), AID.ISLOCALNAME));
-
-                    msg.setContent(message.toString());
-
-                    System.out.println("enviando msg para o agente " + a.getLocalName());
-
-                    this.send(msg);
 
                 }
 
             }
 
+            msg.setContent(message.toString());
+
+            this.send(msg);
+
+
             boolean withoutOptions = true;
-                                    
+
             int loops = 0;
 
             // Trying to find options 15 times...
-            while (ways.size() == 0 && loops <= 15) {
+            while (ways.size() == 0 && loops <= 2) {
 
                 // Doesn't have options if none of the agents did the same way
 

@@ -27,12 +27,10 @@ public class CarReceiving extends CyclicBehaviour {
     public void action() {
         String[] parse;
         ACLMessage rec = this.a.receive();
-        
-        System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e estou recebendo solicitações...");
-        
+
         if (rec != null) {
 
-            //System.out.println("sou o agente " + getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
+            System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
 
             parse = rec.getContent().split("\n");
 
@@ -69,7 +67,7 @@ public class CarReceiving extends CyclicBehaviour {
 
                 if (!buffer.toString().isEmpty()) {
 
-                    ACLMessage response = new OntoACLMessage(ACLMessage.INFORM);
+                    ACLMessage response = new ACLMessage(ACLMessage.INFORM);
 
                     response.addReceiver(new AID(rec.getSender().getLocalName(), AID.ISLOCALNAME));
 
@@ -90,7 +88,7 @@ public class CarReceiving extends CyclicBehaviour {
 
                     //System.out.println("sou o agente " + getAID().getLocalName() + " e recebi a resposta do agente " + rec.getSender().getLocalName());                            
 
-                    this.a.ways.add(p);                                        
+                    this.a.ways.add(p);
 
                 }
 

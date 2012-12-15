@@ -34,17 +34,27 @@ public class RouteAgents {
         Profile profile = new ProfileImpl();
         profile.setParameter(Profile.MAIN_HOST, "127.0.0.1");
         profile.setParameter(Profile.MAIN_PORT, "1099");
-        //profile.setParameter(Profile.GUI, "true");
 
         ContainerController containerController = runtime.createMainContainer(profile);
 
 
-        AgentController a1 = containerController.createNewAgent("car0" , Car.class.getName(), null);
-        a1.start();
-        a1.activate();
-        
-        AgentController a2 = containerController.createNewAgent("car1" , Car.class.getName(), null);
-        a2.start();
+        for (int i = 0; i < 500; i++) {
+
+            AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
+            a.start();
+
+            while (a.getState().getCode() != 3) {                
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+
+        }
+
 
     }
 
