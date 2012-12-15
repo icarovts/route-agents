@@ -12,6 +12,8 @@ import jade.lang.acl.ACLMessage;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Hashtable;
+
 
 /**
  *
@@ -120,6 +122,7 @@ public class Car extends Agent {
 
             ArrayList<Integer> neibhgours = getNeighbours();
 
+            // Creating message to ask for route options
             StringBuffer message = new StringBuffer();
 
             message.append("01\n");
@@ -137,8 +140,10 @@ public class Car extends Agent {
 
             }
 
+            // Remove all ways while waiting for options
             ways.removeAll(null);
 
+            // Ask antoher agents for options
             for (Agent a : RouteAgents.agents) {
 
                 if (!a.getAID().getLocalName().equals(this.getAID().getLocalName())) {
@@ -159,9 +164,10 @@ public class Car extends Agent {
             
             int loops = 0;
             
+            // Trying to find options 15 times...
             while (ways.size() == 0 && loops <= 15) {
 
-                
+                // Doesn't have options if none of the agents did the same way
                 for (Pair p : ways) {
                     withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
                 }
@@ -172,6 +178,7 @@ public class Car extends Agent {
                    System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho...");
                 }
                 
+                // Give a time to agents make the wanted way
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException ex) {
@@ -181,38 +188,55 @@ public class Car extends Agent {
                 loops++;
             }
 
-            double[] prob = new double[neibhgours.size()];
+            Hashtable prob = new Hashtable();
 
+            // Probabilities are the same if doesn't have options...
             if (withoutOptions) {
 
-                for (int i = 0; i < prob.length; i++) {
+                for (int n: neibhgours) {
 
-                    prob[i] = 100.00 / prob.length;
+                    prob.put(n, 100.00 / neibhgours.size());
 
                 }
+                
+            } else {
+                // ...or are proportional to the routes's intervals
+                double inverseTotal = 0;
+                Hashtable inverses = new Hashtable();
+                
+                for (Pair pair: ways) {
+                    
+                    double inverse = 1 / pair.getInterval();
+                    inverses.put(pair.getEnd(), inverse);
+                    inverseTotal += inverse;
+                    
+                }
+                
+                for (int n: neibhgours) {
+                    
+                    double p = ((Double) inverses.get(n)) * 100.00 / inverseTotal;
+                    prob.put(n, p);
+                    
+                }
+                
             }
 
+            // Heuristic route choice based on the probabilities
             int v = 0;
-
             double x = Math.random() * 100;
-
             double y = 0;
 
-            for (int i = 0; i < prob.length; i++) {
+            for (int n: neibhgours) {
 
-                y += prob[i];
-
+                y += (Double) prob.get(n);
                 if (x < y) {
-
-                    v = i;
-
+                    v = n;
                     break;
-
                 }
 
             }
 
-            moveTo(this.current, neibhgours.get(v));
+            moveTo(this.current, v);
 
             System.out.println("agente " + this.getAID().getLocalName() + " Vértice " + this.current);
         }
