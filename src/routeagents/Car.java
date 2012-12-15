@@ -156,22 +156,29 @@ public class Car extends Agent {
             }
 
             boolean withoutOptions = true;
+            
+            int loops = 0;
+            
+            while (ways.size() == 0 && loops <= 15) {
 
-            while (ways.size() == 0) {
-
-                /*try {
-                    Thread.sleep(9000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
-
+                
                 for (Pair p : ways) {
                     withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
                 }
                 
-                System.out.println("aguardando resposta...");
+                System.out.println("agente " + this.getAID().getLocalName() + " aguardando resposta...");
                 
-                //break;
+                if(ways.size() > 0){
+                   System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho...");
+                }
+                
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                loops++;
             }
 
             double[] prob = new double[neibhgours.size()];
