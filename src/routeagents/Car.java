@@ -111,28 +111,21 @@ public class Car extends Agent {
                 }
             }
 
-            boolean withoutOptions = true;
+            boolean hasOptions = true;
 
             //int loops = 0;
 
             for (Pair p : ways) {
-                withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
+                hasOptions = hasOptions && neibhgours.indexOf(p.getEnd()) > -1;
             }
-            withoutOptions = withoutOptions && ways.size() == neibhgours.size();
+            hasOptions = hasOptions && ways.size() == neibhgours.size();
 
 
             Hashtable prob = new Hashtable();
 
             // Probabilities are the same if doesn't have options...
-            if (withoutOptions) {
+            if (hasOptions) {
 
-                for (int n : neibhgours) {
-
-                    prob.put(n, 100.00 / neibhgours.size());
-
-                }
-
-            } else {
                 // ...or are proportional to the routes's intervals
                 double inverseTotal = 0;
                 Hashtable inverses = new Hashtable();
@@ -149,6 +142,14 @@ public class Car extends Agent {
 
                     double p = ((Double) inverses.get(n)) * 100.00 / inverseTotal;
                     prob.put(n, p);
+
+                }
+
+            } else {
+                
+                for (int n : neibhgours) {
+
+                    prob.put(n, 100.00 / neibhgours.size());
 
                 }
 
