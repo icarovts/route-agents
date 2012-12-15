@@ -35,9 +35,6 @@ public class Car extends Agent {
 
         addBehaviour(new CarBehavior(this));
 
-        //addBehaviour(new Teste1(this));
-
-        //addBehaviour(new Teste2(this));
 
     }
 
@@ -65,11 +62,13 @@ public class Car extends Agent {
 
             }
 
+            System.out.println("tamanho do array " + ways.size());
+
             // Remove all ways while waiting for options
-            //ways.removeAll(null);
+            ways.removeAll(null);
 
             // Ask antoher agents for options
-                        
+
             ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 
             for (Agent a : RouteAgents.agents) {
@@ -86,6 +85,34 @@ public class Car extends Agent {
 
             this.send(msg);
 
+            String[] parse;
+            
+            ACLMessage rec = receive();
+
+            if (rec != null) {
+
+                parse = rec.getContent().split("\n");
+                
+                if (parse[0].equals("02")) {
+
+                    for (int i = 1; i < parse.length; i++) {
+
+                        String[] pair = parse[i].split(";");
+
+                        Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
+
+                        //System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e vou adicionar um vertice no array ways");
+
+                        ways.add(p);
+
+                        //System.out.println("tamanho do array " + this.a.ways.size());
+
+                    }
+
+                }
+
+            }
+
 
             boolean withoutOptions = true;
 
@@ -100,7 +127,7 @@ public class Car extends Agent {
                     withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
                 }
 
-                System.out.println("agente " + this.getAID().getLocalName() + " aguardando resposta...");
+                //System.out.println("agente " + this.getAID().getLocalName() + " aguardando resposta...");
 
                 if (ways.size() > 0) {
                     System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho !!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -117,7 +144,7 @@ public class Car extends Agent {
             }
 
             //ways.removeAll(null);
-            
+
             Hashtable prob = new Hashtable();
 
             // Probabilities are the same if doesn't have options...
@@ -166,13 +193,13 @@ public class Car extends Agent {
 
             }
 
-            System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
+            //System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
 
             moveTo(this.current, v);
 
         }
 
-        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+        //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
     }
 
     ArrayList<Integer> getNeighbours() {

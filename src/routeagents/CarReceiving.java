@@ -28,7 +28,7 @@ public class CarReceiving extends CyclicBehaviour {
 
         if (rec != null) {
 
-            System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
+            //System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
 
             parse = rec.getContent().split("\n");
 
@@ -76,21 +76,6 @@ public class CarReceiving extends CyclicBehaviour {
                 }
             }
 
-            if (parse[0].equals("02")) {
-
-                for (int i = 1; i < parse.length; i++) {
-
-                    String[] pair = parse[i].split(";");
-
-                    Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
-
-                    System.out.println("ADICIONEI !!!!!!");
-
-                    this.a.ways.add(p);
-                    
-                }
-
-            }
 
         }
 
