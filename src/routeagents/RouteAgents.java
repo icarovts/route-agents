@@ -41,7 +41,8 @@ public class RouteAgents {
 
         AgentController a1 = containerController.createNewAgent("car0" , Car.class.getName(), null);
         a1.start();
-
+        a1.activate();
+        
         AgentController a2 = containerController.createNewAgent("car1" , Car.class.getName(), null);
         a2.start();
 
