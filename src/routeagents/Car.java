@@ -86,64 +86,61 @@ public class Car extends Agent {
             this.send(msg);
 
             String[] parse;
-            
-            ACLMessage rec = receive();
 
-            if (rec != null) {
+            ACLMessage rec;
 
-                parse = rec.getContent().split("\n");
-                
-                if (parse[0].equals("02")) {
+            while ((rec = receive()) != null) {
 
-                    for (int i = 1; i < parse.length; i++) {
+                if (rec != null) {
 
-                        String[] pair = parse[i].split(";");
+                    parse = rec.getContent().split("\n");
 
-                        Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
+                    if (parse[0].equals("02")) {
 
-                        //System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e vou adicionar um vertice no array ways");
+                        for (int i = 1; i < parse.length; i++) {
 
-                        ways.add(p);
+                            String[] pair = parse[i].split(";");
 
-                        //System.out.println("tamanho do array " + this.a.ways.size());
+                            Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
+
+                            ways.add(p);
+
+                        }
 
                     }
 
                 }
-
             }
-
 
             boolean withoutOptions = true;
 
             int loops = 0;
 
             // Trying to find options 15 times...
-            while (ways.size() == 0 && loops <= 1) {
+            /*while (ways.size() == 0 && loops <= 1) {
 
-                // Doesn't have options if none of the agents did the same way
+             // Doesn't have options if none of the agents did the same way
 
-                for (Pair p : ways) {
-                    withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
-                }
+             for (Pair p : ways) {
+             withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
+             }
 
-                //System.out.println("agente " + this.getAID().getLocalName() + " aguardando resposta...");
+             //System.out.println("agente " + this.getAID().getLocalName() + " aguardando resposta...");
 
-                if (ways.size() > 0) {
-                    System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho !!!!!!!!!!!!!!!!!!!!!!!!!");
-                }
-                // Give a time to agents make the wanted way
+             if (ways.size() > 0) {
+             System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho !!!!!!!!!!!!!!!!!!!!!!!!!");
+             }
+             // Give a time to agents make the wanted way
 
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
-                }
+             try {
+             Thread.sleep(100);
+             } catch (InterruptedException ex) {
+             Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+             }
 
-                loops++;
-            }
+             loops++;
+             }*/
 
-            //ways.removeAll(null);
 
             Hashtable prob = new Hashtable();
 
