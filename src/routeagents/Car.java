@@ -118,6 +118,7 @@ public class Car extends Agent {
             for (Pair p : ways) {
                 withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
             }
+            withoutOptions = withoutOptions && ways.size() == neibhgours.size();
 
 
             Hashtable prob = new Hashtable();
