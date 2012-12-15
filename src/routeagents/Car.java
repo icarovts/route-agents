@@ -30,7 +30,7 @@ public class Car extends Agent {
         super.setup();
 
         RouteAgents.agents.add(this);
-                
+
         CarBehavior carBehavior = new CarBehavior(this);
         // aciiona o comportamento ciclico para ficar recebendo as solicitações dos demais agentes
         addBehaviour(new CyclicBehaviour(this) {
@@ -41,6 +41,8 @@ public class Car extends Agent {
 
                 if (rec != null) {
 
+                    //System.out.println("sou o agente " + getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
+
                     parse = rec.getContent().split("\n");
 
                     if (pairs.size() > 0 && parse[0].equals("01")) {
@@ -49,10 +51,10 @@ public class Car extends Agent {
                         StringBuffer buffer = new StringBuffer();
 
                         buffer.append("02\n");
-                        
+
                         for (int i = 1; i < parse.length; i++) {
 
-                            pair = parse[i].split(";");                           
+                            pair = parse[i].split(";");
 
                             for (Pair p : pairs) {
 
@@ -88,13 +90,15 @@ public class Car extends Agent {
                     }
 
                     if (parse[0].equals("02")) {
-                        
+
                         for (int i = 1; i < parse.length; i++) {
 
                             String[] pair = parse[i].split(";");
-                            
+
                             Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
+                            //System.out.println("sou o agente " + getAID().getLocalName() + " e recebi a resposta do agente " + rec.getSender().getLocalName());                            
+                            
                             ways.add(p);
 
 
@@ -110,7 +114,7 @@ public class Car extends Agent {
         });
 
         addBehaviour(carBehavior);
-        
+
     }
 
     void startWay() {
@@ -137,8 +141,8 @@ public class Car extends Agent {
             }
 
             ways.removeAll(null);
-           
-            
+
+
             for (Agent a : RouteAgents.agents) {
 
                 if (!a.getAID().getLocalName().equals(this.getAID().getLocalName())) {
@@ -156,28 +160,28 @@ public class Car extends Agent {
             }
 
             boolean withoutOptions = true;
-            
-            int loops = 0;
-            
-            while (ways.size() == 0 && loops <= 15) {
 
-                
+            int loops = 0;
+
+            while (ways.size() == 0 && loops <= 10) {
+
+
                 for (Pair p : ways) {
                     withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
                 }
-                
+
                 System.out.println("agente " + this.getAID().getLocalName() + " aguardando resposta...");
-                
-                if(ways.size() > 0){
-                   System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho...");
+
+                if (ways.size() > 0) {
+                    System.out.println("agente " + this.getAID().getLocalName() + " encontrou outros agentes que fizeram este caminho !!!!!!!!!!!!!!!!!!!!!!!!!");
                 }
-                
+
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 loops++;
             }
 
@@ -212,11 +216,13 @@ public class Car extends Agent {
 
             }
 
-            moveTo(this.current, neibhgours.get(v));
+            System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + neibhgours.get(v));
 
-            System.out.println("agente " + this.getAID().getLocalName() + " Vértice " + this.current);
+            moveTo(this.current, neibhgours.get(v));
+           
         }
 
+        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho" );
     }
 
     ArrayList<Integer> getNeighbours() {
@@ -249,7 +255,7 @@ public class Car extends Agent {
     private Double calculateInterval(int start, int end) {
         Double interval;
 
-        interval = RouteAgents.graphRoute[start][end] / RouteAgents.graphVelocity[start][end] ;
+        interval = RouteAgents.graphRoute[start][end] / RouteAgents.graphVelocity[start][end];
 
         return interval;
     }

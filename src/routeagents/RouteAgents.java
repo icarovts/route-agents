@@ -35,21 +35,43 @@ public class RouteAgents {
         Profile profile = new ProfileImpl();
         profile.setParameter(Profile.MAIN_HOST, "127.0.0.1");
         profile.setParameter(Profile.MAIN_PORT, "1099");
+        //profile.setParameter(Profile.GUI, "true");
 
         ContainerController containerController = runtime.createMainContainer(profile);
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1; i++) {
+
             AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
             a.start();
 
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
+        
+        /*try {
+            Thread.sleep(9000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        
+        for (int i = 1; i < 2; i++) {
+
+            AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
+            a.start();
 
         }
+        
+        /*try {
+            Thread.sleep(9000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
 
+        for (int i = 2; i < 3; i++) {
+
+            AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
+            a.start();
+
+        }        
+        
     }
 
     public static double[][] setGraphVelocity(double[][] graphRoute) {
