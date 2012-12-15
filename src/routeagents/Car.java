@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Hashtable;
 
-
 /**
  *
  * @author Felipe V Nambara
@@ -33,89 +32,13 @@ public class Car extends Agent {
 
         RouteAgents.agents.add(this);
 
-        CarBehavior carBehavior = new CarBehavior(this);
-        // aciiona o comportamento ciclico para ficar recebendo as solicitações dos demais agentes
-        addBehaviour(new CyclicBehaviour(this) {
-            @Override
-            public void action() {
-                String[] parse;
-                ACLMessage rec = receive();
+        addBehaviour(new CarReceiving(this));
 
-                if (rec != null) {
+        addBehaviour(new CarBehavior(this));
 
-                    //System.out.println("sou o agente " + getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
+        //addBehaviour(new Teste1(this));
 
-                    parse = rec.getContent().split("\n");
-
-                    if (pairs.size() > 0 && parse[0].equals("01")) {
-
-                        String[] pair;
-                        StringBuffer buffer = new StringBuffer();
-
-                        buffer.append("02\n");
-
-                        for (int i = 1; i < parse.length; i++) {
-
-                            pair = parse[i].split(";");
-
-                            for (Pair p : pairs) {
-
-                                if (p.getStart() == Integer.valueOf(pair[0]) && p.getEnd() == Integer.valueOf(pair[1])) {
-
-                                    buffer.append(pair[0]);
-                                    buffer.append(";");
-                                    buffer.append(pair[1]);
-                                    buffer.append(";");
-                                    buffer.append(p.getTime());
-                                    buffer.append(";");
-                                    buffer.append(p.getInterval());
-                                    buffer.append("\n");
-
-                                }
-
-                            }
-
-                        }
-
-
-                        if (!buffer.toString().isEmpty()) {
-
-                            ACLMessage response = new OntoACLMessage(ACLMessage.INFORM);
-
-                            response.addReceiver(new AID(rec.getSender().getLocalName(), AID.ISLOCALNAME));
-
-                            response.setContent(buffer.toString());
-
-                            send(response);
-
-                        }
-                    }
-
-                    if (parse[0].equals("02")) {
-
-                        for (int i = 1; i < parse.length; i++) {
-
-                            String[] pair = parse[i].split(";");
-
-                            Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
-
-                            //System.out.println("sou o agente " + getAID().getLocalName() + " e recebi a resposta do agente " + rec.getSender().getLocalName());                            
-                            
-                            ways.add(p);
-
-
-                        }
-
-                    }
-
-                }
-
-                block();
-
-            }
-        });
-
-        addBehaviour(carBehavior);
+        //addBehaviour(new Teste2(this));
 
     }
 
@@ -152,11 +75,13 @@ public class Car extends Agent {
 
                 if (!a.getAID().getLocalName().equals(this.getAID().getLocalName())) {
 
-                    ACLMessage msg = new OntoACLMessage(ACLMessage.INFORM);
+                    ACLMessage msg = new OntoACLMessage(ACLMessage.REQUEST);
 
                     msg.addReceiver(new AID(a.getLocalName(), AID.ISLOCALNAME));
 
                     msg.setContent(message.toString());
+
+                    System.out.println("enviando msg para o agente " + a.getLocalName());
 
                     this.send(msg);
 
@@ -165,9 +90,9 @@ public class Car extends Agent {
             }
 
             boolean withoutOptions = true;
-
+                                    
             int loops = 0;
-            
+
             // Trying to find options 15 times...
             while (ways.size() == 0 && loops <= 15) {
 
@@ -198,32 +123,32 @@ public class Car extends Agent {
             // Probabilities are the same if doesn't have options...
             if (withoutOptions) {
 
-                for (int n: neibhgours) {
+                for (int n : neibhgours) {
 
                     prob.put(n, 100.00 / neibhgours.size());
 
                 }
-                
+
             } else {
                 // ...or are proportional to the routes's intervals
                 double inverseTotal = 0;
                 Hashtable inverses = new Hashtable();
-                
-                for (Pair pair: ways) {
-                    
+
+                for (Pair pair : ways) {
+
                     double inverse = 1 / pair.getInterval();
                     inverses.put(pair.getEnd(), inverse);
                     inverseTotal += inverse;
-                    
+
                 }
-                
-                for (int n: neibhgours) {
-                    
+
+                for (int n : neibhgours) {
+
                     double p = ((Double) inverses.get(n)) * 100.00 / inverseTotal;
                     prob.put(n, p);
-                    
+
                 }
-                
+
             }
 
             // Heuristic route choice based on the probabilities
@@ -231,7 +156,7 @@ public class Car extends Agent {
             double x = Math.random() * 100;
             double y = 0;
 
-            for (int n: neibhgours) {
+            for (int n : neibhgours) {
 
                 y += (Double) prob.get(n);
                 if (x < y) {
@@ -242,12 +167,12 @@ public class Car extends Agent {
             }
 
             System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
-           
+
             moveTo(this.current, v);
-           
+
         }
 
-        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho" );
+        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
     }
 
     ArrayList<Integer> getNeighbours() {

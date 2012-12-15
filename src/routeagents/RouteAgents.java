@@ -23,8 +23,7 @@ public class RouteAgents {
     /**
      * @param args the command line arguments
      */
-    
-    public static CopyOnWriteArrayList <Agent> agents = new CopyOnWriteArrayList <Agent>();
+    public static CopyOnWriteArrayList<Agent> agents = new CopyOnWriteArrayList<Agent>();
     public static double[][] graphRoute = setGraphRoute();
     public static double[][] graphVelocity = setGraphVelocity(graphRoute);
 
@@ -39,51 +38,25 @@ public class RouteAgents {
 
         ContainerController containerController = runtime.createMainContainer(profile);
 
-        for (int i = 0; i < 1; i++) {
 
-            AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
-            a.start();
+        AgentController a1 = containerController.createNewAgent("car0" , Car.class.getName(), null);
+        a1.start();
 
-        }
-        
-        /*try {
-            Thread.sleep(9000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        
-        for (int i = 1; i < 2; i++) {
+        AgentController a2 = containerController.createNewAgent("car1" , Car.class.getName(), null);
+        a2.start();
 
-            AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
-            a.start();
-
-        }
-        
-        /*try {
-            Thread.sleep(9000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-
-        for (int i = 2; i < 3; i++) {
-
-            AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
-            a.start();
-
-        }        
-        
     }
 
     public static double[][] setGraphVelocity(double[][] graphRoute) {
 
         double[][] graphVelocity = new double[graphRoute.length][graphRoute.length];
-                              
+
         for (int i = 0; i < graphRoute.length; i++) {
 
             for (int j = 0; j < graphRoute[i].length; j++) {
 
                 if (graphRoute[i][j] > 0) {
-                    graphVelocity[i][j] = ( Math.random()*100 );
+                    graphVelocity[i][j] = (Math.random() * 100);
                 }
 
             }
