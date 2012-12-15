@@ -4,9 +4,7 @@
  */
 package routeagents;
 
-import jade.content.OntoACLMessage;
 import jade.core.AID;
-import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
@@ -67,7 +65,7 @@ public class CarReceiving extends CyclicBehaviour {
 
                 if (!buffer.toString().isEmpty()) {
 
-                    ACLMessage response = new ACLMessage(ACLMessage.INFORM);
+                    ACLMessage response = new ACLMessage(ACLMessage.REQUEST);
 
                     response.addReceiver(new AID(rec.getSender().getLocalName(), AID.ISLOCALNAME));
 
@@ -86,10 +84,10 @@ public class CarReceiving extends CyclicBehaviour {
 
                     Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
-                    //System.out.println("sou o agente " + getAID().getLocalName() + " e recebi a resposta do agente " + rec.getSender().getLocalName());                            
+                    System.out.println("ADICIONEI !!!!!!");
 
                     this.a.ways.add(p);
-
+                    
                 }
 
             }

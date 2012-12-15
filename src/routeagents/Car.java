@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Hashtable;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Car extends Agent {
     int current = 0;
     boolean wait = false;
     ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
-    ArrayList<Pair> ways = new ArrayList<Pair>();
+    CopyOnWriteArrayList<Pair> ways = new CopyOnWriteArrayList<Pair>();
 
     @Override
     protected void setup() {
@@ -65,7 +66,7 @@ public class Car extends Agent {
             }
 
             // Remove all ways while waiting for options
-            ways.removeAll(null);
+            //ways.removeAll(null);
 
             // Ask antoher agents for options
                         
@@ -91,7 +92,7 @@ public class Car extends Agent {
             int loops = 0;
 
             // Trying to find options 15 times...
-            while (ways.size() == 0 && loops <= 2) {
+            while (ways.size() == 0 && loops <= 1) {
 
                 // Doesn't have options if none of the agents did the same way
 
@@ -107,7 +108,7 @@ public class Car extends Agent {
                 // Give a time to agents make the wanted way
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -115,6 +116,8 @@ public class Car extends Agent {
                 loops++;
             }
 
+            //ways.removeAll(null);
+            
             Hashtable prob = new Hashtable();
 
             // Probabilities are the same if doesn't have options...
