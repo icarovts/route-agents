@@ -87,7 +87,9 @@ public class Car extends Agent {
             ACLMessage rec;
 
             while ((rec = receive()) != null) {
-
+                
+                System.out.println("sou o agente " + getAID().getLocalName() + " e recebi uma mensagem do agente " + rec.getSender().getLocalName());
+                
                 if (rec != null) {
 
                     parse = rec.getContent().split("\n");
@@ -166,13 +168,13 @@ public class Car extends Agent {
 
             }
 
-            System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
+            //System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
 
             moveTo(this.current, v);
 
         }
 
-        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+        //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
     }
 
     ArrayList<Integer> getNeighbours() {

@@ -28,7 +28,7 @@ public class CarReceiving extends CyclicBehaviour {
 
         if (rec != null) {
 
-            System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
+            //System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
 
             parse = rec.getContent().split("\n");
 
