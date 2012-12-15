@@ -21,7 +21,8 @@ public class Car extends Agent {
 
     int current = 0;
     boolean wait = false;
-    ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car    
+    ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
+    double totalInterval = 0;
 
     @Override
     protected void setup() {
@@ -29,6 +30,10 @@ public class Car extends Agent {
         super.setup();
 
         RouteAgents.agents.add(this);
+        
+//        if (RouteAgents.agents.size() > 25) {
+//            RouteAgents.agents.remove(0);
+//        }
 
         addBehaviour(new CarReceiving(this));
 
@@ -49,13 +54,15 @@ public class Car extends Agent {
 
             Hashtable prob = setProbabilities(neighbors, ways);
 
-            moveTo(this.current, chooseRoute(neighbors, prob));
+            int v = chooseRoute(neighbors, prob);
             
-            // System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
+            System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
+            
+            moveTo(this.current, v);            
 
         }
 
-        //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho (" + this.totalInterval + " segundos)");
     }
 
     ArrayList<Integer> getNeighbours() {
@@ -64,7 +71,7 @@ public class Car extends Agent {
 
         for (int i = 0; i < RouteAgents.graphRoute[current].length; i++) {
 
-            if (RouteAgents.graphRoute[current][i] == 1) {
+            if (RouteAgents.graphRoute[current][i] > 0) {
 
                 neighbours.add(i);
 
@@ -77,7 +84,10 @@ public class Car extends Agent {
 
     void moveTo(int start, int end) {
 
-        Pair pair = new Pair(start, end, calculateInterval(start, end));
+        double interval = calculateInterval(start, end);
+        this.totalInterval += interval;
+        
+        Pair pair = new Pair(start, end, interval);
 
         pairs.add(pair);
 
@@ -197,7 +207,7 @@ public class Car extends Agent {
 
         while ((rec = receive()) != null) {
 
-            System.out.println("sou o agente " + getAID().getLocalName() + " e recebi uma mensagem do agente " + rec.getSender().getLocalName());
+//            System.out.println("sou o agente " + getAID().getLocalName() + " e recebi uma mensagem do agente " + rec.getSender().getLocalName());
 
             if (rec != null) {
 
