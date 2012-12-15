@@ -116,6 +116,7 @@ public class Car extends Agent {
             for (Pair p : ways) {
                 withoutOptions = withoutOptions && neibhgours.indexOf(p.getEnd()) == -1;
             }
+            withoutOptions = withoutOptions && ways.size() == neibhgours.size();
 
             // Trying to find options 15 times...
             /*while (ways.size() == 0 && loops <= 1) {
