@@ -113,12 +113,24 @@ public class Car extends Agent {
 
             boolean hasOptions = true;
 
-            //int loops = 0;
-
-            for (Pair p : ways) {
-                hasOptions = hasOptions && neibhgours.indexOf(p.getEnd()) > -1;
+            for (int i: neibhgours) {
+                
+                boolean hasOneOption = false;
+                
+                for(Pair p: ways){
+                    
+                    if(i == p.getEnd()){
+                        
+                        hasOneOption = true;
+                        
+                    }
+                    
+                }
+                
+                hasOptions = hasOneOption && hasOptions;
+            
             }
-            hasOptions = hasOptions && ways.size() == neibhgours.size();
+            
 
 
             Hashtable prob = new Hashtable();
