@@ -46,7 +46,7 @@ public class RouteAgents {
             while (a.getState().getCode() != 3) {                
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
                 }

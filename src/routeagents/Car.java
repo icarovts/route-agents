@@ -182,13 +182,13 @@ public class Car extends Agent {
 
             }
 
-            //System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
+            System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
 
             moveTo(this.current, v);
 
         }
 
-        //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
     }
 
     ArrayList<Integer> getNeighbours() {
