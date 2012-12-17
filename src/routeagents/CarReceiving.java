@@ -64,7 +64,9 @@ public class CarReceiving extends CyclicBehaviour {
 
 
                 if (!buffer.toString().isEmpty()) {
-
+                    
+                    System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e vou enviar a resposta para o agente " + rec.getSender().getLocalName());
+                    
                     ACLMessage response = new ACLMessage(ACLMessage.REQUEST);
 
                     response.addReceiver(new AID(rec.getSender().getLocalName(), AID.ISLOCALNAME));

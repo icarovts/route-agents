@@ -38,7 +38,7 @@ public class RouteAgents {
         ContainerController containerController = runtime.createMainContainer(profile);
 
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 10; i++) {
 
             AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
             a.start();

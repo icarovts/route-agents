@@ -196,7 +196,7 @@ public class Car extends Agent {
                 break;
             }
 
-        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+        //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
 
         }
         
