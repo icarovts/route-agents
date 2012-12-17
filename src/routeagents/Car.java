@@ -91,7 +91,13 @@ public class Car extends Agent {
 
         pairs.add(pair);
 
-        this.current = end;
+        this.current = end;        
+        
+        try {
+            Thread.sleep(( (Double) interval ).longValue() * 1000);        
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
