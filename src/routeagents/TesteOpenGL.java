@@ -1,3 +1,7 @@
+// http://www.lwjgl.org/download.php
+// Propriedades > Executar > Opções de VM
+// -Djava.library.path=/Users/icarovts/Downloads/lwjgl-2.8.5/native/macosx
+
 package testeopengl;
 
 import org.lwjgl.input.Keyboard;
