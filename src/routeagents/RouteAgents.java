@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -27,21 +28,23 @@ public class RouteAgents {
      */
     public static CopyOnWriteArrayList<Agent> agents = new CopyOnWriteArrayList<Agent>();
     public static Route[][] graphRoute = setGraphRoute();
+    public static final int FRAMERATE = 60;
 
     public static void main(String[] args) throws StaleProxyException {
 
         // Build a graphic graphRoute
         try {
             initDisplay(true);
+            runGraph();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         } finally {
             cleanup();
         }
-        
+
         // Init JADE configs and some agents
         initJADE();
-        
+
     }
 
     private static void initDisplay(boolean fullscreen) throws LWJGLException {
@@ -53,6 +56,83 @@ public class RouteAgents {
         Display.setVSyncEnabled(true);
 
         Display.create();
+    }
+
+    private static void runGraph() {
+        boolean finished = false;
+        while (!finished) {
+
+            Display.update();
+
+            // Check for close requests
+            if (Display.isCloseRequested()) {
+                finished = true;
+            } else if (Display.isActive()) {
+                render();
+                Display.sync(FRAMERATE);
+            } // The window is not in the foreground, so we can allow other stuff to run and
+            // infrequently update
+
+        }
+    }
+
+    private static void render() {
+
+        GL11.glMatrixMode(GL11.GL_PROJECTION);
+        GL11.glLoadIdentity();
+        GL11.glOrtho(0, Display.getDisplayMode().getWidth(), 0, Display.getDisplayMode().getHeight(), -1, 1);
+        GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+        // clear the screen
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
+
+        // center square according to screen size
+        GL11.glPushMatrix();
+        GL11.glTranslatef(Display.getDisplayMode().getWidth() / 2, Display.getDisplayMode().getHeight() / 2, 0.0f);
+
+
+
+
+        // Retas
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glColor3f(5.0f, 5.0f, 1.0f);
+        GL11.glVertex2f(0, 300);
+        GL11.glVertex2f(0, 0);
+
+        GL11.glVertex2f(0, 300);
+        GL11.glVertex2f(300, 0);
+
+        GL11.glVertex2f(0, 300);
+        GL11.glVertex2f(-300, 0);
+
+        GL11.glVertex2f(-300, 0);
+        GL11.glVertex2f(0, 0);
+
+        GL11.glVertex2f(300, 0);
+        GL11.glVertex2f(0, 0);
+
+        GL11.glVertex2f(-300, 0);
+        GL11.glVertex2f(0, -300);
+
+        GL11.glVertex2f(0, 0);
+        GL11.glVertex2f(0, -300);
+
+        GL11.glVertex2f(300, 0);
+        GL11.glVertex2f(0, -300);
+
+        GL11.glEnd();
+
+
+        // Carro
+        GL11.glPointSize(10);
+//        GL11.glRotatef(angle, 0.0f, 0.0f, 1.0f);
+        GL11.glBegin(GL11.GL_POINTS);
+        GL11.glColor3f(0.0f, 0.0f, 1.0f);
+        GL11.glVertex2f(0, 5.0f);
+        GL11.glEnd();
+
+
+        GL11.glPopMatrix();
     }
 
     private static void cleanup() {
