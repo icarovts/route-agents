@@ -93,18 +93,20 @@ public class Car extends Agent {
 
         this.current = end;        
         
-        try {
-            Thread.sleep(( (Double) interval ).longValue() * 1000);        
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            Thread.sleep(( (Double) interval ).longValue() * 1000);        
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
     private Double calculateInterval(int start, int end) {
         Double interval;
-
-        interval = RouteAgents.graphRoute[start][end] / RouteAgents.graphVelocity[start][end];
+        
+        Route route = RouteAgents.graphRoute[start][end];
+        
+        interval = route.getLength() / route.getAvarageVelocity();
 
         return interval;
     }
