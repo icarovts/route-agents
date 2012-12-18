@@ -43,6 +43,17 @@ public class Route {
     public Double getAvarageVelocity() {
         return avarageVelocity;
     }
-    
-    
+
+    public Double getLength() {
+        
+        double dsx = Math.abs((double) startX);
+        double dsy = Math.abs((double) startY);
+        double dex = Math.abs((double) endX);
+        double dey = Math.abs((double) endY);
+
+        double distX = dex - dsx;
+        double distY = dey - dsy;
+        
+        return Math.sqrt(distX * distX + distY * distY);
+    }
 }

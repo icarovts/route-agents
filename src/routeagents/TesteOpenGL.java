@@ -118,12 +118,12 @@ class TesteOpenGL {
      */
     private static void logic() {
         // Example input handler: we'll check for the ESC key and finish the game instantly when it's pressed
-        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || angle == 300) {
             finished = true;
         }
-
+        
         // Rotate the square
-        angle += 6;
+        angle += 0.5;
     }
 
     /**
