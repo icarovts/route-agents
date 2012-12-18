@@ -84,16 +84,18 @@ public class Car extends Agent {
 
     void moveTo(int start, int end) {
 
+        System.out.println("sou o agente " + this.getAID().getLocalName() + " e estou percorrendo o caminho de " + start + " para " + end +"...");
+        
         double interval = calculateInterval(start, end);
         this.totalInterval += interval;
         
         Pair pair = new Pair(start, end, interval);
-
+        
         pairs.add(pair);
 
-        this.current = end;        
+        this.current = end;                        
         
-        try {
+        try {            
             Thread.sleep(( (Double) interval ).longValue() * 1000);        
         } catch (InterruptedException ex) {
             Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
