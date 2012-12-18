@@ -2,7 +2,7 @@
 // Propriedades > Executar > Opções de VM
 // -Djava.library.path=/Users/icarovts/Downloads/lwjgl-2.8.5/native/macosx
 
-package testeopengl;
+package routeagents;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
