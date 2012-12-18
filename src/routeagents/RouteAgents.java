@@ -34,7 +34,7 @@ public class RouteAgents {
 
         // Build a graphic graphRoute
         try {
-            initDisplay(true);
+            initDisplay(false);
             runGraph();
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -102,38 +102,28 @@ public class RouteAgents {
         GL11.glPushMatrix();
         GL11.glTranslatef(Display.getDisplayMode().getWidth() / 2, Display.getDisplayMode().getHeight() / 2, 0.0f);
 
-
-
-
-        // Retas
+        // Routes
         GL11.glBegin(GL11.GL_LINES);
         GL11.glColor3f(5.0f, 5.0f, 1.0f);
-        GL11.glVertex2f(0, 300);
-        GL11.glVertex2f(0, 0);
-
-        GL11.glVertex2f(0, 300);
-        GL11.glVertex2f(300, 0);
-
-        GL11.glVertex2f(0, 300);
-        GL11.glVertex2f(-300, 0);
-
-        GL11.glVertex2f(-300, 0);
-        GL11.glVertex2f(0, 0);
-
-        GL11.glVertex2f(300, 0);
-        GL11.glVertex2f(0, 0);
-
-        GL11.glVertex2f(-300, 0);
-        GL11.glVertex2f(0, -300);
-
-        GL11.glVertex2f(0, 0);
-        GL11.glVertex2f(0, -300);
-
-        GL11.glVertex2f(300, 0);
-        GL11.glVertex2f(0, -300);
+        
+        for (int i = 0; i < graphRoute.length; i++) {
+            
+            for (int j = 0; j < graphRoute[i].length; j++) {
+                
+                Route route  = graphRoute[i][j];
+                
+                if(route != null){
+                    
+                    GL11.glVertex2f(route.getStartX(), route.getStartY());
+                    GL11.glVertex2f(route.getEndX(), route.getEndY());
+                    
+                }
+                
+            }
+        }
+        
 
         GL11.glEnd();
-
 
         // Carro
         GL11.glPointSize(10);
