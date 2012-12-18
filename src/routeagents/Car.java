@@ -20,18 +20,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class Car extends Agent {
 
     int current = 0;
+    int simX;
+    int simY;
     boolean wait = false;
     ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
     double totalInterval = 0;
 
-    
     @Override
     protected void setup() {
 
-        super.setup();                
-        
+        super.setup();
+
         RouteAgents.agents.add(this);
-        
+
         addBehaviour(new CarReceiving(this));
 
         addBehaviour(new CarBehavior(this));
@@ -39,24 +40,23 @@ public class Car extends Agent {
 
     }
 
-    
     void startWay() {
 
         while (this.current != RouteAgents.graphRoute.length - 1) {
 
             ArrayList<Integer> neighbors = getNeighbours();
-            
+
             askForWays(neighbors);
 
-            ArrayList <Pair> ways = receiveWays();
+            ArrayList<Pair> ways = receiveWays();
 
             Hashtable prob = setProbabilities(neighbors, ways);
 
             int v = chooseRoute(neighbors, prob);
-            
+
             System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
-            
-            moveTo(this.current, v);            
+
+            moveTo(this.current, v);
 
         }
 
@@ -82,43 +82,90 @@ public class Car extends Agent {
 
     void moveTo(int start, int end) {
 
-        System.out.println("sou o agente " + this.getAID().getLocalName() + " e estou percorrendo o caminho de " + start + " para " + end +"...");
-        
+        System.out.println("sou o agente " + this.getAID().getLocalName() + " e estou percorrendo o caminho de " + start + " para " + end + "...");
+
         double interval = calculateInterval(start, end);
-        this.totalInterval += interval;
-        
+
+        Route route = RouteAgents.graphRoute[start][end];
+        int x = route.getStartX();
+        int y = route.getStartY();
+        int x2 = route.getEndX();
+        int y2 = route.getEndY();
+
+        double velocity = route.getAvarageVelocity();
         Pair pair = new Pair(start, end, interval);
-        
+
         pairs.add(pair);
 
-        this.current = end;                        
+        while (x != x2 || y != y2) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            int toIterate = ((int) velocity / 10);
+
+            if (toIterate == 0) {
+                toIterate = 1;
+            }
+
+            if (x < x2) {
+                x += toIterate;
+            } else {
+                if (x > x2) {
+                    x -= toIterate;
+                }
+            }
+
+            if (y < y2) {
+                y += toIterate;
+            } else {
+                if (y > y2) {
+                    y -= toIterate;
+                }
+            }
+
+            this.simX = x;
+            this.simY = y;
+
+
+
+        }
+
+
+
+        this.totalInterval += interval;
+
+        
+        this.current = end;
 
     }
 
     private Double calculateInterval(int start, int end) {
         Double interval;
-        
+
         Route route = RouteAgents.graphRoute[start][end];
-        
+
         interval = route.getLength() / route.getAvarageVelocity();
 
         return interval;
     }
-    
-    private Hashtable setProbabilities(ArrayList<Integer> neighbors, ArrayList<Pair> ways ){
-        
-        Hashtable prob = new Hashtable();
-        
-        boolean hasOptions = true;
-        ArrayList <Pair> correctWays = new ArrayList<Pair>();
 
-        for (int i: neighbors) {
+    private Hashtable setProbabilities(ArrayList<Integer> neighbors, ArrayList<Pair> ways) {
+
+        Hashtable prob = new Hashtable();
+
+        boolean hasOptions = true;
+        ArrayList<Pair> correctWays = new ArrayList<Pair>();
+
+        for (int i : neighbors) {
 
             boolean hasOneOption = false;
 
-            for(Pair p: ways){
+            for (Pair p : ways) {
 
-                if(i == p.getEnd()){
+                if (i == p.getEnd()) {
 
                     correctWays.add(p);
                     hasOneOption = true;
@@ -131,7 +178,7 @@ public class Car extends Agent {
 
         }
 
-        
+
         // Probabilities are the same if doesn't have options 
         // or are proportional to the routes's intervals
         if (hasOptions) {
@@ -153,7 +200,7 @@ public class Car extends Agent {
 
                 }
 
-                double avarageInterval = totalInterval/count;
+                double avarageInterval = totalInterval / count;
 
                 double inverse = 1 / avarageInterval;
                 inverses.put(n, inverse);
@@ -180,10 +227,10 @@ public class Car extends Agent {
             }
 
         }
-        
+
         return prob;
     }
-    
+
     // Heuristic route choice based on the probabilities
     private int chooseRoute(ArrayList<Integer> neighbors, Hashtable prob) {
         int v = 0;
@@ -198,17 +245,17 @@ public class Car extends Agent {
                 break;
             }
 
-        //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+            //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
 
         }
-        
+
         return v;
-        
+
     }
-    
+
     private ArrayList<Pair> receiveWays() {
         ArrayList<Pair> ways = new ArrayList<Pair>();
-        
+
         String[] parse;
         ACLMessage rec;
 
@@ -236,10 +283,10 @@ public class Car extends Agent {
 
             }
         }
-        
+
         return ways;
     }
-    
+
     private void askForWays(ArrayList<Integer> neighbors) {
         // Creating message to ask for route options
         StringBuffer message = new StringBuffer();
@@ -276,5 +323,12 @@ public class Car extends Agent {
 
         this.send(msg);
     }
-            
+
+    public void setSimX(int simX) {
+        this.simX = simX;
+    }
+
+    public void setSimY(int simY) {
+        this.simY = simY;
+    }
 }

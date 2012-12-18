@@ -4,9 +4,15 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
-class Simulation {
+class Simulation implements Runnable{
+
+    @Override
+    public void run() {
+        start();
+    }
 
     public static final int FRAMERATE = 60;
+    public static boolean finished = false;
 
     void start() {
 
@@ -36,54 +42,42 @@ class Simulation {
 
     private static void runGraph() {
 
-        for (Car car : RouteAgents.agents) {
+        while (!finished) {
+            // Always call Window.update(), all the time - it does some behind the
+            // scenes work, and also displays the rendered output
 
-            for (Pair pair : car.pairs) {
 
-                int x = RouteAgents.graphRoute[pair.getStart()][pair.getEnd()].getStartX();
-                int y = RouteAgents.graphRoute[pair.getStart()][pair.getEnd()].getStartY();
-                int x2 = RouteAgents.graphRoute[pair.getStart()][pair.getEnd()].getEndX();
-                int y2 = RouteAgents.graphRoute[pair.getStart()][pair.getEnd()].getEndY();
+            // Check for close requests
+            if (Display.isCloseRequested()) {
+                finished = true;
+            } // The window is in the foreground, so we should play the game
+            else if (Display.isActive()) {
 
-                double velocity = RouteAgents.graphRoute[pair.getStart()][pair.getEnd()].getAvarageVelocity();
+                render();
+                Display.update();
+                Display.sync(FRAMERATE);
+            } // The window is not in the foreground, so we can allow other stuff to run and
+            // infrequently update
+            else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                }
 
-                while (x != x2 || y != y2) {                   
-                            
-                    int toIterate = ((int) velocity/10) ;
-                                                            
-                    if(toIterate == 0){
-                        toIterate = 1;
-                    }
+
+                // Only bother rendering if the window is visible or dirty
+                if (Display.isVisible() || Display.isDirty()) {
                     
-                    if (x < x2) {
-                        x += toIterate;
-                    } else {
-                        if (x > x2) {
-                            x -= toIterate;
-                        }
-                    }
-
-                    if (y < y2) {
-                        y += toIterate;
-                    } else {
-                        if (y > y2) {
-                            y -= toIterate;
-                        }
-                    }
-
-                    render(x, y);
-
+                    render();
                     Display.update();
-
                 }
             }
-
-            Display.sync(FRAMERATE);
         }
 
     }
 
-    private static void render(int x, int y) {
+
+    private static void render() {
 
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glLoadIdentity();
@@ -121,14 +115,16 @@ class Simulation {
         GL11.glEnd();
 
         // Carro
-        GL11.glPointSize(40);
+        GL11.glPointSize(10);
         GL11.glBegin(GL11.GL_POINTS);
-        GL11.glPopName();
-        GL11.glColor3f(0.0f, 0.0f, 1.0f);
-        GL11.glVertex2f(x, y);
+
+        for (Car car : RouteAgents.agents) {
+            if(car.simX != 0 || car.simY != 0){
+                GL11.glColor3f(0.0f, 0.0f, 1.0f);
+                GL11.glVertex2f(car.simX, car.simY);
+            }
+        }
         GL11.glEnd();
-
-
         GL11.glPopMatrix();
     }
 

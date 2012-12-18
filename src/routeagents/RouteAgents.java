@@ -25,11 +25,9 @@ public class RouteAgents {
      */
     public static CopyOnWriteArrayList<Car> agents = new CopyOnWriteArrayList<Car>();
     public static Route[][] graphRoute = setGraphRoute();
-    
-
 
     public static void main(String[] args) throws StaleProxyException {
-                
+
         // Init JADE configs and some agents
         initJADE();
 
@@ -46,46 +44,49 @@ public class RouteAgents {
         // Init some car agents
         ContainerController containerController = runtime.createMainContainer(profile);
 
-        for (int i = 0; i < 50; i++) {
+        Simulation simulation = new Simulation();
+        Thread tSim = new Thread(simulation);
+        tSim.start();
+        
+        for (int i = 0; i < 200; i++) {
 
             AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
-            
+
             a.start();
-            
-            while (a.getState().getCode() != 3) {
 
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
-                }
+//            while (a.getState().getCode() != 3) {
 
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+//            }
+
         }
-        
+
         // initialize graphical simulation after processing jade agents
-        Simulation simulation = new Simulation();
-        simulation.start();
         
+
         containerController.kill();
         runtime.setCloseVM(true);
-                
-        
+
+
     }
 
     public static Route[][] setGraphRoute() {
 
         Route[][] graphRoute = new Route[5][5];
 
-        graphRoute[0][1] = new Route(0, 300, 0, 0, 5.0 + (Math.random() * 20));
-        graphRoute[0][2] = new Route(0, 300, 300, 0, 5.0 + (Math.random() * 20));
-        graphRoute[0][3] = new Route(0, 300, -300, 0, 5.0 + (Math.random() * 20));
-        graphRoute[3][1] = new Route(-300, 0, 0, 0, 5.0 + (Math.random() * 20));
-        graphRoute[2][1] = new Route(300, 0, 0, 0, 5.0 + (Math.random() * 20));
-        graphRoute[3][4] = new Route(-300, 0, 0, -300, 5.0 + (Math.random() * 20));
-        graphRoute[1][4] = new Route(0, 0, 0, -300, 5.0 + (Math.random() * 20));
-        graphRoute[2][4] = new Route(300, 0, 0, -300, 5.0 + (Math.random() * 20));
+        graphRoute[0][1] = new Route(0, 300, 0, 0, 1.0);
+        graphRoute[0][2] = new Route(0, 300, 300, 0, 3.0);
+        graphRoute[0][3] = new Route(0, 300, -300, 0, 100.0);
+        graphRoute[3][1] = new Route(-300, 0, 0, 0, 60.0);
+        graphRoute[2][1] = new Route(300, 0, 0, 0, 1.0);
+        graphRoute[3][4] = new Route(-300, 0, 0, -300, 40.0);
+        graphRoute[1][4] = new Route(0, 0, 0, -300, 10.0);
+        graphRoute[2][4] = new Route(300, 0, 0, -300, 5.0);
 
         return graphRoute;
 
