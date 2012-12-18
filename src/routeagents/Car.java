@@ -24,17 +24,14 @@ public class Car extends Agent {
     ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
     double totalInterval = 0;
 
+    
     @Override
     protected void setup() {
 
-        super.setup();
-
+        super.setup();                
+        
         RouteAgents.agents.add(this);
         
-//        if (RouteAgents.agents.size() > 25) {
-//            RouteAgents.agents.remove(0);
-//        }
-
         addBehaviour(new CarReceiving(this));
 
         addBehaviour(new CarBehavior(this));
@@ -42,6 +39,7 @@ public class Car extends Agent {
 
     }
 
+    
     void startWay() {
 
         while (this.current != RouteAgents.graphRoute.length - 1) {
@@ -94,12 +92,6 @@ public class Car extends Agent {
         pairs.add(pair);
 
         this.current = end;                        
-        
-//        try {
-//            Thread.sleep(( (Double) interval ).longValue() * 1000);        
-//        } catch (InterruptedException ex) {
-//            Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
-//        }
 
     }
 
