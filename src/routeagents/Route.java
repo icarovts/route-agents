@@ -23,4 +23,26 @@ public class Route {
         this.endY = endY;
         this.avarageVelocity = avarageVelocity;
     }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getEndX() {
+        return endX;
+    }
+
+    public int getEndY() {
+        return endY;
+    }
+
+    public Double getAvarageVelocity() {
+        return avarageVelocity;
+    }
+    
+    
 }
