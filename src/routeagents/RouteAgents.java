@@ -13,6 +13,8 @@ import jade.wrapper.StaleProxyException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
 
 /**
  *
@@ -25,18 +27,49 @@ public class RouteAgents {
      */
     public static CopyOnWriteArrayList<Agent> agents = new CopyOnWriteArrayList<Agent>();
     public static Route[][] graphRoute = setGraphRoute();
-//    public static double[][] graphVelocity = setGraphVelocity(graphRoute);
 
     public static void main(String[] args) throws StaleProxyException {
 
+        // Build a graphic graphRoute
+        try {
+            initDisplay(true);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        } finally {
+            cleanup();
+        }
+        
+        // Init JADE configs and some agents
+        initJADE();
+        
+    }
+
+    private static void initDisplay(boolean fullscreen) throws LWJGLException {
+        // Create a fullscreen window with 1:1 orthographic 2D projection (default)
+        Display.setTitle("Route Agents - Ícaro & Felipe");
+        Display.setFullscreen(fullscreen);
+
+        // Enable vsync if we can (due to how OpenGL works, it cannot be guarenteed to always work)
+        Display.setVSyncEnabled(true);
+
+        Display.create();
+    }
+
+    private static void cleanup() {
+        // Close the window
+        Display.destroy();
+    }
+
+    private static void initJADE() throws StaleProxyException {
+        // JADE configs...
         jade.core.Runtime runtime = jade.core.Runtime.instance();
 
         Profile profile = new ProfileImpl();
         profile.setParameter(Profile.MAIN_HOST, "127.0.0.1");
         profile.setParameter(Profile.MAIN_PORT, "1099");
 
+        // Init some car agents
         ContainerController containerController = runtime.createMainContainer(profile);
-
 
         for (int i = 0; i < 10; i++) {
 
@@ -54,27 +87,6 @@ public class RouteAgents {
             }
 
         }
-
-
-    }
-
-    public static double[][] setGraphVelocity(double[][] graphRoute) {
-
-        double[][] graphVelocity = new double[graphRoute.length][graphRoute.length];
-
-        for (int i = 0; i < graphRoute.length; i++) {
-
-            for (int j = 0; j < graphRoute[i].length; j++) {
-
-                if (graphRoute[i][j] > 0) {
-                    graphVelocity[i][j] = 5.0 + (Math.random() * 20);
-                }
-
-            }
-
-        }
-        return graphVelocity;
-
     }
 
     public static Route[][] setGraphRoute() {
@@ -89,7 +101,7 @@ public class RouteAgents {
         graphRoute[3][4] = new Route(-300, 0, 0, -300, 5.0 + (Math.random() * 20));
         graphRoute[1][4] = new Route(0, 0, 0, -300, 5.0 + (Math.random() * 20));
         graphRoute[2][4] = new Route(300, 0, 0, -300, 5.0 + (Math.random() * 20));
-        
+
         return graphRoute;
 
     }
