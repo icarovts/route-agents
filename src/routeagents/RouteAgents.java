@@ -124,7 +124,7 @@ public class RouteAgents {
 
 
         // Carro
-        GL11.glPointSize(10);
+        GL11.glPointSize(50);
 //        GL11.glRotatef(angle, 0.0f, 0.0f, 1.0f);
         GL11.glBegin(GL11.GL_POINTS);
         GL11.glColor3f(0.0f, 0.0f, 1.0f);
