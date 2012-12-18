@@ -71,7 +71,7 @@ public class Car extends Agent {
 
         for (int i = 0; i < RouteAgents.graphRoute[current].length; i++) {
 
-            if (RouteAgents.graphRoute[current][i] > 0) {
+            if (RouteAgents.graphRoute[current][i] != null) {
 
                 neighbours.add(i);
 

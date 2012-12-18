@@ -24,8 +24,8 @@ public class RouteAgents {
      * @param args the command line arguments
      */
     public static CopyOnWriteArrayList<Agent> agents = new CopyOnWriteArrayList<Agent>();
-    public static double[][] graphRoute = setGraphRoute();
-    public static double[][] graphVelocity = setGraphVelocity(graphRoute);
+    public static Route[][] graphRoute = setGraphRoute();
+//    public static double[][] graphVelocity = setGraphVelocity(graphRoute);
 
     public static void main(String[] args) throws StaleProxyException {
 
@@ -77,120 +77,19 @@ public class RouteAgents {
 
     }
 
-    public static double[][] setGraphRoute() {
+    public static Route[][] setGraphRoute() {
 
-        double[][] graphRoute = new double[4][4];
-        
-        graphRoute[0][0] = 0;
-        graphRoute[0][1] = 100;
-        graphRoute[0][2] = 100;
-        graphRoute[0][3] = 100;
-        
-        graphRoute[1][0] = 0;
-        graphRoute[1][1] = 0;
-        graphRoute[1][2] = 100;
-        graphRoute[1][3] = 100;
-        
-        graphRoute[2][0] = 0;
-        graphRoute[2][1] = 100;
-        graphRoute[2][2] = 0;
-        graphRoute[2][3] = 100;
-        
-        graphRoute[3][0] = 0;
-        graphRoute[3][1] = 0;
-        graphRoute[3][2] = 0;
-        graphRoute[3][3] = 0;
+        Route[][] graphRoute = new Route[5][5];
 
-//        graphRoute[0][0] = 0;
-//        graphRoute[0][1] = 300;
-//        graphRoute[0][2] = 200;
-//        graphRoute[0][3] = 0;
-//        graphRoute[0][4] = 250;
-//        graphRoute[0][5] = 0;
-//        graphRoute[0][6] = 0;
-//        graphRoute[0][7] = 0;
-//        graphRoute[0][8] = 0;
-//
-//        graphRoute[1][0] = 0;
-//        graphRoute[1][1] = 0;
-//        graphRoute[1][2] = 100;
-//        graphRoute[1][3] = 600;
-//        graphRoute[1][4] = 30;
-//        graphRoute[1][5] = 0;
-//        graphRoute[1][6] = 100;
-//        graphRoute[1][7] = 0;
-//        graphRoute[1][8] = 0;
-//
-//        graphRoute[2][0] = 0;
-//        graphRoute[2][1] = 0;
-//        graphRoute[2][2] = 0;
-//        graphRoute[2][3] = 0;
-//        graphRoute[2][4] = 800;
-//        graphRoute[2][5] = 1000;
-//        graphRoute[2][6] = 0;
-//        graphRoute[2][7] = 300;
-//        graphRoute[2][8] = 0;
-//
-//        graphRoute[3][0] = 0;
-//        graphRoute[3][1] = 0;
-//        graphRoute[3][2] = 0;
-//        graphRoute[3][3] = 0;
-//        graphRoute[3][4] = 20;
-//        graphRoute[3][5] = 0;
-//        graphRoute[3][6] = 200;
-//        graphRoute[3][7] = 0;
-//        graphRoute[3][8] = 0;
-//
-//        graphRoute[4][0] = 0;
-//        graphRoute[4][1] = 0;
-//        graphRoute[4][2] = 0;
-//        graphRoute[4][3] = 0;
-//        graphRoute[4][4] = 0;
-//        graphRoute[4][5] = 400;
-//        graphRoute[4][6] = 800;
-//        graphRoute[4][7] = 900;
-//        graphRoute[4][8] = 1000;
-//
-//        graphRoute[5][0] = 0;
-//        graphRoute[5][1] = 0;
-//        graphRoute[5][2] = 0;
-//        graphRoute[5][3] = 0;
-//        graphRoute[5][4] = 0;
-//        graphRoute[5][5] = 0;
-//        graphRoute[5][6] = 0;
-//        graphRoute[5][7] = 20000;
-//        graphRoute[5][8] = 0;
-//
-//        graphRoute[6][0] = 0;
-//        graphRoute[6][1] = 0;
-//        graphRoute[6][2] = 0;
-//        graphRoute[6][3] = 0;
-//        graphRoute[6][4] = 0;
-//        graphRoute[6][5] = 0;
-//        graphRoute[6][6] = 0;
-//        graphRoute[6][7] = 200;
-//        graphRoute[6][8] = 700;
-//
-//        graphRoute[7][0] = 0;
-//        graphRoute[7][1] = 0;
-//        graphRoute[7][2] = 0;
-//        graphRoute[7][3] = 0;
-//        graphRoute[7][4] = 0;
-//        graphRoute[7][5] = 0;
-//        graphRoute[7][6] = 200;
-//        graphRoute[7][7] = 0;
-//        graphRoute[7][8] = 500;
-//
-//        graphRoute[8][0] = 0;
-//        graphRoute[8][1] = 0;
-//        graphRoute[8][2] = 0;
-//        graphRoute[8][3] = 0;
-//        graphRoute[8][4] = 0;
-//        graphRoute[8][5] = 0;
-//        graphRoute[8][6] = 0;
-//        graphRoute[8][7] = 0;
-//        graphRoute[8][8] = 0;
-
+        graphRoute[0][1] = new Route(0, 300, 0, 0, 5.0 + (Math.random() * 20));
+        graphRoute[0][2] = new Route(0, 300, 300, 0, 5.0 + (Math.random() * 20));
+        graphRoute[0][3] = new Route(0, 300, -300, 0, 5.0 + (Math.random() * 20));
+        graphRoute[3][1] = new Route(-300, 0, 0, 0, 5.0 + (Math.random() * 20));
+        graphRoute[2][1] = new Route(300, 0, 0, 0, 5.0 + (Math.random() * 20));
+        graphRoute[3][4] = new Route(-300, 0, 0, -300, 5.0 + (Math.random() * 20));
+        graphRoute[1][4] = new Route(0, 0, 0, -300, 5.0 + (Math.random() * 20));
+        graphRoute[2][4] = new Route(300, 0, 0, -300, 5.0 + (Math.random() * 20));
+        
         return graphRoute;
 
     }
