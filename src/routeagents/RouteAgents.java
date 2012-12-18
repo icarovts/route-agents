@@ -72,6 +72,18 @@ public class RouteAgents {
                 Display.sync(FRAMERATE);
             } // The window is not in the foreground, so we can allow other stuff to run and
             // infrequently update
+            else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                }
+//                logic();
+
+                // Only bother rendering if the window is visible or dirty
+                if (Display.isVisible() || Display.isDirty()) {
+                    render();
+                }
+            }
 
         }
     }
