@@ -49,7 +49,7 @@ public class RouteAgents {
         Thread tSim = new Thread(simulation);
         tSim.start();
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 200; i++) {
 
             AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
 
@@ -65,8 +65,8 @@ public class RouteAgents {
                 
         
 
-        containerController.kill();
-        runtime.setCloseVM(true);
+        //containerController.kill();
+        //runtime.setCloseVM(true);
 
 
     }

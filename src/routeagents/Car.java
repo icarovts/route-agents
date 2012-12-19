@@ -69,7 +69,7 @@ public class Car extends Agent {
 
         }
 
-        System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho (" + this.totalInterval + " segundos)");
+        System.err.println("agente " + this.getAID().getLocalName() + " finalizando caminho (" + this.totalInterval + " segundos)");
     }
 
     ArrayList<Integer> getNeighbours() {
