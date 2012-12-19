@@ -25,6 +25,8 @@ public class Car extends Agent {
     boolean wait = false;
     ArrayList<Pair> pairs = new ArrayList<Pair>(); // route done by car
     double totalInterval = 0;
+    CarReceiving carrec;
+    CarBehavior carbeh;
 
     @Override
     protected void setup() {
@@ -33,9 +35,13 @@ public class Car extends Agent {
 
         RouteAgents.agents.add(this);
 
-        addBehaviour(new CarReceiving(this));
+        this.carrec = new CarReceiving(this);
 
-        addBehaviour(new CarBehavior(this));
+        this.carbeh = new CarBehavior(this);
+
+        addBehaviour(carrec);
+
+        addBehaviour(carbeh);
 
 
     }
@@ -46,9 +52,12 @@ public class Car extends Agent {
 
             ArrayList<Integer> neighbors = getNeighbours();
 
+            //this.carrec.block();
+
             askForWays(neighbors);
 
             ArrayList<Pair> ways = receiveWays();
+           
 
             Hashtable prob = setProbabilities(neighbors, ways);
 
@@ -98,12 +107,13 @@ public class Car extends Agent {
         pairs.add(pair);
 
         while (x != x2 || y != y2) {
+
             try {
-                Thread.sleep(50);
+                Thread.sleep(70);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Car.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            }            
+            
             int toIterate = ((int) velocity / 10);
 
             if (toIterate == 0) {
@@ -137,7 +147,7 @@ public class Car extends Agent {
 
         this.totalInterval += interval;
 
-        
+
         this.current = end;
 
     }
@@ -182,7 +192,7 @@ public class Car extends Agent {
         // Probabilities are the same if doesn't have options 
         // or are proportional to the routes's intervals
         if (hasOptions) {
-
+            
             double inverseTotal = 0;
             Hashtable inverses = new Hashtable();
 
@@ -214,8 +224,7 @@ public class Car extends Agent {
                 prob.put(n, p);
 
             }
-
-            //System.out.println("agente " + this.getAID().getLocalName() + " saiu do vértice " + this.current + " para o " + v);
+           
 
         } else {
 
@@ -245,7 +254,7 @@ public class Car extends Agent {
                 break;
             }
 
-            //System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
+            System.out.println("agente " + this.getAID().getLocalName() + " finalizando caminho");
 
         }
 
@@ -261,8 +270,6 @@ public class Car extends Agent {
 
         while ((rec = receive()) != null) {
 
-//            System.out.println("sou o agente " + getAID().getLocalName() + " e recebi uma mensagem do agente " + rec.getSender().getLocalName());
-
             if (rec != null) {
 
                 parse = rec.getContent().split("\n");
@@ -276,12 +283,17 @@ public class Car extends Agent {
                         Pair p = new Pair(Integer.parseInt(pair[0]), Integer.parseInt(pair[1]), Double.parseDouble(pair[2]));
 
                         ways.add(p);
+                        
+                        //System.out.println("entrou " + p.getEnd());
 
                     }
 
                 }
 
             }
+
+            System.out.println("sou o agente " + this.getAID().getLocalName() + " e estou aguardando a resposta...");
+
         }
 
         return ways;

@@ -92,8 +92,7 @@ class Simulation implements Runnable{
         GL11.glTranslatef(Display.getDisplayMode().getWidth() / 2, Display.getDisplayMode().getHeight() / 2, 0.0f);
 
         // Routes
-        GL11.glBegin(GL11.GL_LINES);
-        GL11.glColor3f(5.0f, 5.0f, 1.0f);
+        GL11.glBegin(GL11.GL_LINES);        
 
         for (int i = 0; i < RouteAgents.graphRoute.length; i++) {
 
@@ -103,6 +102,16 @@ class Simulation implements Runnable{
 
                 if (route != null) {
 
+                    if(route.getAvarageVelocity() <= 30){
+                        GL11.glColor3f(1.0f, 0.0f, 0.0f);
+                    }else if(route.getAvarageVelocity() <= 60){
+                        GL11.glColor3f(1.0f, 1.0f, 0.0f);
+                    }else if(route.getAvarageVelocity() > 60){
+                        GL11.glColor3f(0.0f, 1.0f, 0.0f);
+                    }
+                   
+                    
+                    
                     GL11.glVertex2f(route.getStartX(), route.getStartY());
                     GL11.glVertex2f(route.getEndX(), route.getEndY());
 

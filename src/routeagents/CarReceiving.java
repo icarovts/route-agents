@@ -15,18 +15,23 @@ import jade.lang.acl.ACLMessage;
 public class CarReceiving extends CyclicBehaviour {
 
     Car a;
+    boolean receive = true;
 
     public CarReceiving(Car a) {
         super(a);
         this.a = a;
     }
-
+    
+    public void setReceive(boolean choice){
+        this.receive = choice;
+    }
+    
     @Override
     public void action() {
         String[] parse;
         ACLMessage rec = this.a.receive();
 
-        if (rec != null) {
+        if (rec != null && receive) {
 
             System.out.println("sou o agente " + this.a.getAID().getLocalName() + " e recebi a solicitacao do agente " + rec.getSender().getLocalName());
 

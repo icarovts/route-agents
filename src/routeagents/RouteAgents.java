@@ -40,6 +40,7 @@ public class RouteAgents {
         Profile profile = new ProfileImpl();
         profile.setParameter(Profile.MAIN_HOST, "127.0.0.1");
         profile.setParameter(Profile.MAIN_PORT, "1099");
+        //profile.setParameter(Profile.GUI, "true");
 
         // Init some car agents
         ContainerController containerController = runtime.createMainContainer(profile);
@@ -48,13 +49,11 @@ public class RouteAgents {
         Thread tSim = new Thread(simulation);
         tSim.start();
         
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 100; i++) {
 
             AgentController a = containerController.createNewAgent("car" + i, Car.class.getName(), null);
 
             a.start();
-
-//            while (a.getState().getCode() != 3) {
 
             try {
                 Thread.sleep(500);
@@ -62,11 +61,8 @@ public class RouteAgents {
                 Logger.getLogger(RouteAgents.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-//            }
-
         }
-
-        // initialize graphical simulation after processing jade agents
+                
         
 
         containerController.kill();
@@ -79,14 +75,14 @@ public class RouteAgents {
 
         Route[][] graphRoute = new Route[5][5];
 
-        graphRoute[0][1] = new Route(0, 300, 0, 0, 1.0);
-        graphRoute[0][2] = new Route(0, 300, 300, 0, 3.0);
+        graphRoute[0][1] = new Route(0, 300, 0, 0, 20.0);
+        graphRoute[0][2] = new Route(0, 300, 300, 0, 40.0);
         graphRoute[0][3] = new Route(0, 300, -300, 0, 100.0);
         graphRoute[3][1] = new Route(-300, 0, 0, 0, 60.0);
-        graphRoute[2][1] = new Route(300, 0, 0, 0, 1.0);
+        graphRoute[2][1] = new Route(300, 0, 0, 0, 25.0);
         graphRoute[3][4] = new Route(-300, 0, 0, -300, 40.0);
-        graphRoute[1][4] = new Route(0, 0, 0, -300, 10.0);
-        graphRoute[2][4] = new Route(300, 0, 0, -300, 5.0);
+        graphRoute[1][4] = new Route(0, 0, 0, -300, 120.0);
+        graphRoute[2][4] = new Route(300, 0, 0, -300, 60.0);
 
         return graphRoute;
 
